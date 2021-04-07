@@ -35,6 +35,7 @@ public class EnemyController : MonoBehaviour
                 if(targetStats != null)
                 {
                     //Attack Target 
+                    //Debug.Log("Attacking target");
                     combat.Attack(targetStats);
                 }
                 FaceTarget();

@@ -6,7 +6,7 @@ using UnityEngine;
 public class CharacterCombat : MonoBehaviour 
 {
     public float attackSpeed = 1f;
-    private float attackCooldown = 0f;
+    public float attackCooldown = 0f;
 
     CharacterStats myStats;
 
@@ -24,6 +24,7 @@ public class CharacterCombat : MonoBehaviour
     { 
         if(attackCooldown <= 0f)
         {
+            Debug.Log("in attack");
             targetStats.TakeDamage(myStats.damage.GetValue());
             attackCooldown = 1f / attackSpeed;
         }

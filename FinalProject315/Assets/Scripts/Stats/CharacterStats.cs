@@ -19,7 +19,7 @@ public class CharacterStats : MonoBehaviour
         {
             TakeDamage(100);
         }*/
-        Debug.Log(currentHealth);
+        //Debug.Log(currentHealth);
     }
 
     public void TakeDamage(int damage)
@@ -28,7 +28,8 @@ public class CharacterStats : MonoBehaviour
         damage = Mathf.Clamp(damage, 0, int.MaxValue);
         
         currentHealth -= damage;
-        Debug.Log(transform.name + " takes" + damage + " damage."); 
+        Debug.Log(transform.name + " takes" + damage + " damage.");
+        Debug.Log(currentHealth);
 
         if(currentHealth <= 0)
         {
