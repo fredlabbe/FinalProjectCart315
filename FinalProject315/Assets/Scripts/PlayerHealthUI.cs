@@ -21,13 +21,13 @@ public class PlayerHealthUI : MonoBehaviour
         foreach (Canvas c in FindObjectsOfType<Canvas>())
         {
             //|| c.renderMode == RenderMode.ScreenSpaceOverlay
-            if (c.renderMode == RenderMode.WorldSpace)
-            {
-                ui = Instantiate(uiPrefab, c.transform).transform;
-                //Debug.Log(ui);
-                healthSlider = ui.GetChild(0).GetComponent<Image>();
-                break;
-            }
+            //if (c.renderMode == RenderMode.WorldSpace)
+            //{
+            //    ui = Instantiate(uiPrefab, c.transform).transform;
+            //    //Debug.Log(ui);
+            //    healthSlider = ui.GetChild(0).GetComponent<Image>();
+            //    break;
+            //}
             if (c.renderMode == RenderMode.ScreenSpaceOverlay)
             {
                 ui = PlayerHealthBar.transform;
@@ -49,6 +49,7 @@ public class PlayerHealthUI : MonoBehaviour
 
             float healthPercent = (float)currentHealth / maxHealth;
             healthSlider.fillAmount = healthPercent;
+            SoundManager.PlaySound("playerHit");
             if (currentHealth <= 0)
             {
                 Destroy(ui.gameObject);
@@ -60,7 +61,7 @@ public class PlayerHealthUI : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (ui != null)
+        if (ui != null && target.tag == "Enemy")
         {
             ui.position = target.position;
             ui.forward = -cam.forward;

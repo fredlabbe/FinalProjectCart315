@@ -28,13 +28,13 @@ public class HealthUI : MonoBehaviour
                 healthSlider = ui.GetChild(0).GetComponent<Image>();
                 break;
             }
-           // if (c.renderMode == RenderMode.ScreenSpaceOverlay)
-           // {
-            //    ui = PlayerHealthBar.transform;
-            //    //Debug.Log(ui);
-            //    healthSlider = ui.GetChild(0).GetComponent<Image>();
-            //    break;
-            //}
+            if (c.renderMode == RenderMode.ScreenSpaceOverlay)
+            {
+                ui = PlayerHealthBar.transform;
+                //Debug.Log(ui);
+                healthSlider = ui.GetChild(0).GetComponent<Image>();
+                break;
+            }
         }
 
         GetComponent<CharacterStats>().OnHealthChanged += OnHealthChanged;
@@ -49,6 +49,7 @@ public class HealthUI : MonoBehaviour
 
             float healthPercent = (float)currentHealth/ maxHealth;
             healthSlider.fillAmount = healthPercent;
+            SoundManager.PlaySound("enemyHit");
             if (currentHealth <= 0)
             {
                 Destroy(ui.gameObject);
@@ -63,7 +64,7 @@ public class HealthUI : MonoBehaviour
         if(ui != null)
         {
             ui.position = target.position;
-            ui.forward = -cam.forward;
+            ui.forward = cam.forward;
         }
         
     }

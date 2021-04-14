@@ -29,6 +29,7 @@ public class CharacterCombat : MonoBehaviour
         if(attackCooldown <= 0f)
         {
             Debug.Log("in attack");
+            SoundManager.PlaySound("swordclash01");
             targetStats.TakeDamage(myStats.damage.GetValue());
             attackCooldown = 1f / attackSpeed;
         }

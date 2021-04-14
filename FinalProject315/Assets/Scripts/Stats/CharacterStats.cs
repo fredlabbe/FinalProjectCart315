@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CharacterStats : MonoBehaviour
 { 
@@ -50,5 +51,6 @@ public class CharacterStats : MonoBehaviour
         // Die in some way 
         // This method is meant to be overidden 
         Debug.Log(transform.name + " died.");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
