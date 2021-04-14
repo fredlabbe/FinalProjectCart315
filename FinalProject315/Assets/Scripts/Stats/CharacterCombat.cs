@@ -10,14 +10,18 @@ public class CharacterCombat : MonoBehaviour
 
     CharacterStats myStats;
 
+    //private Animator animator;
+
     void Start()
     {
-        myStats = GetComponent<CharacterStats>();    
+        myStats = GetComponent<CharacterStats>();
+        //animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
     {
-        attackCooldown -= Time.deltaTime;    
+        attackCooldown -= Time.deltaTime;     
+
     }
 
     public void Attack (CharacterStats targetStats)

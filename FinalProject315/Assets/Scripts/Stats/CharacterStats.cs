@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
 { 
-    public int maxHealth = 1000; 
+    public int maxHealth = 200; 
     public int currentHealth { get; private set; }
 
     public Stat damage;
     public Stat armor;
+
+    public event System.Action<int, int> OnHealthChanged;
 
     void Awake()
     {
@@ -30,6 +32,12 @@ public class CharacterStats : MonoBehaviour
         currentHealth -= damage;
         Debug.Log(transform.name + " takes" + damage + " damage.");
         Debug.Log(currentHealth);
+
+        if(OnHealthChanged != null)
+        {
+            OnHealthChanged(maxHealth, currentHealth);
+            Debug.Log("In CharacterStats' OnHealthChanged");
+        }
 
         if(currentHealth <= 0)
         {

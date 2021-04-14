@@ -16,11 +16,19 @@ public class PlayerManager : MonoBehaviour
     #endregion 
 
     public GameObject player;
-    public Camera mainCamera;
+    public Camera mainCamera; 
+
+    CharacterCombat combat;
+    public Transform target;
 
     private float range = 3f;
 
     int delay = 50;
+
+    void Start()
+    {
+        combat = player.GetComponent<CharacterCombat>();
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -35,13 +43,19 @@ public class PlayerManager : MonoBehaviour
                 delay = 0;
                 Ray clickRay = mainCamera.ScreenPointToRay(Input.mousePosition);
                 RaycastHit result;
-                if (Physics.Raycast(clickRay, out result) && result.collider.tag == "Enemy")
-                { 
-                    if(result.distance > 1.5)
+                if (Physics.Raycast(clickRay, out result) && result.collider.tag == "Enemy") 
+                {
+                    CharacterStats targetStats = target.GetComponent<CharacterStats>();
+                    
+
+
+                    if (result.distance > 1.5)
                     {
                         //GameObject.Instantiate(player, result.point, Quaternion.identity); 
                         //Attack enemy  
-                        Debug.Log("Plyaer Attacking");
+                        Debug.Log("Player Attacking");
+                        combat.Attack(targetStats);
+
                     }
                     
                 }
@@ -50,7 +64,7 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            delay = 50;
+            delay = 15;
         }
     }
 }

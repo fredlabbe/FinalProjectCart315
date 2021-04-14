@@ -10,6 +10,8 @@ public class EnemyController : MonoBehaviour
     Transform target;
     NavMeshAgent agent;
     CharacterCombat combat;
+    static Animator animator;
+    bool animationPlaying = false;
 
     // Start is called before the first frame update
     void Start()
@@ -17,11 +19,14 @@ public class EnemyController : MonoBehaviour
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
         combat = GetComponent<CharacterCombat>();
+        animator = GetComponentInChildren<Animator>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(animator.GetBool("isAttack1"));
         float distance = Vector3.Distance(target.position, transform.position);
 
         //if is inside the lookRadius moves it
@@ -29,17 +34,62 @@ public class EnemyController : MonoBehaviour
         {
             agent.SetDestination(target.position); 
 
-            if(distance <= agent.stoppingDistance)
+            
+            //Debug.Log("Aware true");
+
+            if (distance <= agent.stoppingDistance)
             {
-                CharacterStats targetStats = target.GetComponent<CharacterStats>(); 
-                if(targetStats != null)
+                CharacterStats targetStats = target.GetComponent<CharacterStats>();
+                
+                if (targetStats != null)
                 {
                     //Attack Target 
-                    //Debug.Log("Attacking target");
-                    combat.Attack(targetStats);
+                    //Debug.Log("Attacking target");   
+                    
+                    if (animator.GetBool("Aware") == true)
+                    {
+                        animator.SetBool("Aware", false);
+                    } 
+                    animator.SetBool("isAttack1", true);
+
+                    //animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1") 
+                    //animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0)
+
+                    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1"))
+                    {
+                        // Avoid any reload.
+                        animationPlaying = true;
+                    }
+                    else if (animationPlaying)
+                    {
+                        combat.Attack(targetStats);
+
+                        Debug.Log("Finished Attacking right now");
+                        animationPlaying = false;
+                        // You have just leaved your state!
+                    }
+
+                    //if (AnimatorIsPlaying("Attack1"))
+                    //{
+                        
+                    //    combat.Attack(targetStats);
+                        
+                    //    Debug.Log("Finished Attacking right now");
+                   // }
+                    
                 }
                 FaceTarget();
+                //animator.SetBool("Attack", true);
             }
+            else
+            {
+                animator.SetBool("isAttack1", false);
+                animator.SetBool("Aware", true);
+            }
+        }
+        else
+        {
+            animator.SetBool("Aware", false);
         }
     } 
 
@@ -55,5 +105,10 @@ public class EnemyController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, lookRadius); 
 
+    }
+
+    bool AnimatorIsPlaying(string stateName)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
 }

@@ -16,7 +16,8 @@ public class SwordAttack : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            anim.SetBool("attacking", true); 
+            anim.SetBool("attacking", true);  
+
         }
         else if(Input.GetButtonUp("Fire1"))
         {
